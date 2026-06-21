@@ -14,6 +14,7 @@ function changeYear(delta) {
     document.getElementById('year-display').innerText = tempYear; 
 } 
 
+// --- Výběr roku ---
 function selectYear() { 
     aktualniRok = tempYear; 
     document.getElementById('selected-year-title').innerText = aktualniRok; 
@@ -269,6 +270,15 @@ function copyReportToClipboard() {
         }, 1200);
     }).catch(err => {
         alert('Chyba při kopírování: ' + err);
+    });
+}
+
+// --- Registrace Service Workeru pro PWA mobilní instalaci ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker registrován úspěšně.', reg))
+            .catch(err => console.log('Registrace Service Workeru selhala.', err));
     });
 }
 

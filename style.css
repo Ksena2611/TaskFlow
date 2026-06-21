@@ -169,7 +169,7 @@ body {
     margin: 10px 0;
 }
 
-/* Styly pro sekci zálohování dat */
+/* Sekce zálohování dat */
 .backup-zone {
     display: flex;
     gap: 10px;
