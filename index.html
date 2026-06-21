@@ -1,0 +1,117 @@
+<!DOCTYPE html> 
+<html lang="cs"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Planner 2026</title> 
+    <link rel="stylesheet" href="style.css"> 
+</head> 
+<body> 
+    <div class="app"> 
+        <div id="year-select-screen" class="screen">
+            <h1 class="header-main">Planner</h1> 
+            <div class="nav-container">
+                <button class="btn-nav" onclick="changeYear(-1)">&lt;</button>
+                <span id="year-display" class="year-val">2026</span>
+                <button class="btn-nav" onclick="changeYear(1)">&gt;</button>
+            </div> 
+            <button class="btn-main" onclick="selectYear()">Potvrdit rok</button> 
+        </div> 
+
+        <div id="year-screen" class="screen hidden">
+            <h1 class="header-main" id="selected-year-title">2026</h1> 
+            <button class="btn-main" onclick="showScreen('month-screen')">Plánování</button> 
+            <button class="btn-main" onclick="showScreen('settings-screen')">Databáze úkolů</button> 
+            <button class="btn-text" onclick="showScreen('year-select-screen')">Zpět na výběr roku</button> 
+        </div> 
+
+        <div id="settings-screen" class="screen hidden">
+            <h2 class="title">Databáze</h2> 
+            <input type="text" id="template-input" placeholder="Nový úkol..."> 
+            <button class="btn-sub" onclick="addTemplate()">Přidat do DB</button> 
+            <div id="templates-list" class="content-box"></div> 
+            
+            <div style="margin: 10px 0 5px 0;">
+                <select id="backup-year-select" style="margin-bottom: 8px;">
+                    <option value="all">Zálohovat Všechny roky + DB</option>
+                    <option value="2025">Jen rok 2025</option>
+                    <option value="2026" selected>Jen rok 2026</option>
+                    <option value="2027">Jen rok 2027</option>
+                    <option value="2028">Jen rok 2028</option>
+                </select>
+            </div>
+            <div class="backup-zone" style="margin-top: 0;">
+                <button class="btn-backup export" onclick="exportDataByYear()">📥 Zálohovat</button>
+                <label class="btn-backup import">
+                    📤 Obnovit
+                    <input type="file" id="import-file" style="display: none;" onchange="importAllData(event)">
+                </label>
+            </div>
+
+            <button class="btn-text" onclick="showScreen('year-screen')">Zpět</button> 
+        </div> 
+
+        <div id="month-screen" class="screen hidden">
+            <h2 class="title" id="month-title">Měsíc</h2> 
+            <div id="months-grid" class="grid-container"></div> 
+            <button class="btn-text" onclick="showScreen('year-screen')">Zpět</button> 
+        </div> 
+
+        <div id="month-menu-screen" class="screen hidden">
+            <h2 id="menu-month-title" class="title">Leden</h2> 
+            <div class="menu-buttons-container">
+                <button class="btn-main menu-large-btn" onclick="selectCategory('daily')">Můj plán</button> 
+                <button class="btn-main menu-large-btn" onclick="selectCategory('jakub')">Jakub</button> 
+                <button class="btn-sub menu-large-btn" onclick="showMonthlyReport('daily')">Můj plán Přehled</button> 
+                <button class="btn-sub menu-large-btn" onclick="showMonthlyReport('jakub')">Jakub Přehled</button> 
+            </div>
+            <button class="btn-text" onclick="showScreen('month-screen')">Zpět</button> 
+        </div>
+
+        <div id="day-screen" class="screen hidden">
+            <div class="day-header-container">
+                <h2 id="current-month-title" class="title">Leden</h2> 
+                <span id="current-category-badge" class="badge">Můj plán</span>
+            </div>
+            <div id="days-grid" class="grid-days"></div> 
+            <button class="btn-text" onclick="showScreen('month-menu-screen')">Zpět</button> 
+        </div> 
+
+        <div id="task-modal" class="modal hidden"> 
+            <div class="modal-content"> 
+                <button class="close-btn" onclick="closeModal('task-modal')">&times;</button> 
+                <h3 id="date-label">1. Leden 2026</h3> 
+                
+                <div id="task-view"> 
+                    <h4 class="modal-subtitle">Úkol:</h4> 
+                    
+                    <div class="selectors-row">
+                        <select id="template-dropdown">
+                            <option value="">Vyberte úkol z DB</option>
+                        </select> 
+                        <input type="text" id="price-input" placeholder="cena">
+                    </div> 
+                    
+                    <button class="btn-sub btn-add-task" onclick="addTask()">PŘIDAT</button> 
+                    <div id="task-list" class="content-box"></div> 
+                </div> 
+            </div> 
+        </div> 
+
+        <div id="report-modal" class="modal hidden"> 
+            <div class="modal-content"> 
+                <div class="report-header">
+                    <h3 id="report-title">Přehled</h3> 
+                    <div>
+                        <button class="copy-btn" onclick="copyReportToClipboard()">Kop.</button>
+                        <button class="close-btn" onclick="closeModal('report-modal')">&times;</button> 
+                    </div>
+                </div>
+                <div id="report-content" class="content-box"></div> 
+            </div> 
+        </div> 
+    </div> 
+    
+    <script src="script.js"></script> 
+</body> 
+</html>
